@@ -60,7 +60,7 @@ export default function DoubleBottom({ stocks }) {
       <h1 className="text-center flex justify-center my-4 text-2xl tracking-wide font-bold">
         Double Bottoms
       </h1>
-      <div className="ag-theme-alpine h-96 w-3/4 mx-auto">
+      <div className="ag-theme-alpine h-96 w-5/6 mx-auto">
         {console.log("Stocks Data:", stocksData)}
         <AgGridReact
           theme={themeMaterial}

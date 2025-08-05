@@ -19,17 +19,31 @@ function App() {
     JSON.parse(localStorage.getItem("favs") || "[]")
   );
 
+  async function fetchWithFallBack(dateString, maxTries = 10) {
+    let currentDate = new Date(dateString);
+    for (let i = 0; i < maxTries; i++) {
+      const isoDate = currentDate.toISOString().slice(0, 10);
+      const tempUrl = `https://stocktracker-api.onrender.com/api/signals?date=${isoDate}`;
+      const r = await fetch(tempUrl);
+      const data = await r.json();
+      console.log("Fetched data for date:", isoDate, data);
+
+      // Change this check depending on your API response structure:
+      if (!Array.isArray(data)) {
+        setResults(data);
+        return;
+      }
+      // Move to previous day
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+  }
+
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
+
     console.log("Fetching signals for date:", today);
     const tempUrl = `https://stocktracker-api.onrender.com/api/signals?date=${today}`;
-    fetch(tempUrl)
-      .then((r) => r.json())
-      .then((data) => {
-        // data is { crossover_results, double_top_results, double_bottom_results }
-        setResults(data);
-      })
-      .catch(console.error);
+    fetchWithFallBack(today).catch(console.error);
   }, []);
 
   console.log("stock signals:", signals);
