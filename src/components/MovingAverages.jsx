@@ -2,7 +2,7 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { themeMaterial } from "ag-grid-community";
-import { useFavorites } from "../contexts/FavoritesContext";
+//import { useFavorites } from "../contexts/FavoritesContext";
 import FavoriteRenderer from "./FavoriteRenderer";
 ModuleRegistry.registerModules([AllCommunityModule]);
 

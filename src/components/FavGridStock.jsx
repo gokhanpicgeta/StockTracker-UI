@@ -1,13 +1,13 @@
+// FavGridStock.jsx
 import React from "react";
-import { useFavorites } from "../contexts/FavoritesContext";
-export default function FavStockGrid({ results }) {
+
+export default function FavStockGrid({ favorites, toggleFavorite, results }) {
   const gridContainer = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
     gap: "16px",
     padding: "16px",
   };
-
   const cardStyle = {
     position: "relative",
     border: "1px solid #ccc",
@@ -17,7 +17,6 @@ export default function FavStockGrid({ results }) {
     display: "grid",
     gridTemplateRows: "auto 1fr",
   };
-
   const innerGrid = {
     display: "grid",
     gridTemplateColumns: "auto auto",
@@ -26,11 +25,6 @@ export default function FavStockGrid({ results }) {
     fontSize: "0.9rem",
     marginTop: "8px",
   };
-
-  const labelStyle = { fontWeight: 600 };
-  const valueStyle = { textAlign: "right" };
-
-  const { favorites, toggleFavorite } = useFavorites();
 
   if (favorites.size === 0) {
     return (
@@ -44,13 +38,9 @@ export default function FavStockGrid({ results }) {
 
   return (
     <div style={gridContainer}>
-      {console.log("Favorites:", favorites)}
-      {console.log("Results:", results)}
       {Array.from(favorites).map((symbol) => {
-        // 1) Crossover is just a string
         const crossover = results.crossover_results[symbol] ?? "–";
 
-        // 2) Double Top
         const dt = results.double_top_results[symbol];
         let dtWindow = "–",
           dtStart = "–",
@@ -68,15 +58,12 @@ export default function FavStockGrid({ results }) {
           ] = dt[1];
           dtStart = new Date(startISO).toLocaleDateString();
           dtEnd = new Date(endISO).toLocaleDateString();
-          //avgPrice = (prevPeak + currPrice) / 2;
-          //(detailsArray[5] / ((detailsArray[2] + detailsArray[3]) / 2)) * 100;
           dtPct = `${(
             (troughPrice / ((prevPeak + currPrice) / 2)) *
             100
           ).toFixed(2)}%`;
         }
 
-        // 3) Double Bottom
         const db = results.double_bottom_results[symbol];
         let dbWindow = "–",
           dbStart = "–",
@@ -92,15 +79,12 @@ export default function FavStockGrid({ results }) {
             (peakPrice / ((prevBottom + currPrice) / 2)) *
             100
           ).toFixed(2)}%`;
-          console.log("db", db);
         }
 
         const isFav = favorites.has(symbol);
 
         return (
           <div key={symbol} style={cardStyle}>
-            {/* ⭐️ clickable star in top‐right */}
-
             <div
               className="text-rose-700 text-center"
               style={{ fontSize: "1.1rem", fontWeight: 700 }}
@@ -123,12 +107,12 @@ export default function FavStockGrid({ results }) {
             </div>
 
             <div style={innerGrid}>
-              <div style={labelStyle}>9/45 Crossover:</div>
-              <div style={valueStyle}>{crossover}</div>
+              <div style={{ fontWeight: 600 }}>9/45 Crossover:</div>
+              <div style={{ textAlign: "right" }}>{crossover}</div>
 
-              <div style={labelStyle}>Double Top:</div>
-              <div style={valueStyle}>
-                {dt ? ( // Check if dt exists
+              <div style={{ fontWeight: 600 }}>Double Top:</div>
+              <div style={{ textAlign: "right" }}>
+                {dt ? (
                   <>
                     <div>{dtWindow}</div>
                     <div style={{ fontSize: "0.8rem" }}>
@@ -141,9 +125,9 @@ export default function FavStockGrid({ results }) {
                 )}
               </div>
 
-              <div style={labelStyle}>Double Bottom:</div>
-              <div style={valueStyle}>
-                {db ? ( // Check if db exists
+              <div style={{ fontWeight: 600 }}>Double Bottom:</div>
+              <div style={{ textAlign: "right" }}>
+                {db ? (
                   <>
                     <div>Window: {dbWindow}</div>
                     <div style={{ fontSize: "0.8rem" }}>
@@ -152,7 +136,7 @@ export default function FavStockGrid({ results }) {
                     <div>Peak Percent: {dbPct}</div>
                   </>
                 ) : (
-                  <div>-</div> // Display hyphen if no double bottom data
+                  <div>-</div>
                 )}
               </div>
             </div>

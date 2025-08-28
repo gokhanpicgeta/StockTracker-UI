@@ -2,7 +2,7 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { themeMaterial } from "ag-grid-community";
-import { useFavorites } from "../contexts/FavoritesContext";
+//import { useFavorites } from "../contexts/FavoritesContext";
 import FavoriteRenderer from "./FavoriteRenderer";
 
 export default function DoubleTop({ stocks }) {
