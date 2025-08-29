@@ -14,11 +14,12 @@ export default function CountryStocks({ country, stocks }) {
     { field: "symbol", headerName: "Symbol", flex: 1 },
     { field: "movingAverage", headerName: "9 Crossing 45", flex: 1 },
     { field: "doubleBottom", headerName: "Double Bottom", flex: 1 },
-    { field: "peakPrice", headerName: "Peak Percentage", flex: 1 },
-    { field: "dbDate", headerName: "Double Bottom date", flex: 1 },
+    { field: "peakPrice", headerName: "Peak %", flex: 1 },
+    { field: "dbDate", headerName: "Bottom Date", flex: 1 },
     { field: "doubleTop", headerName: "Double Top", flex: 1 },
-    { field: "troughPrice", headerName: "trough Percentage", flex: 1 },
-    { field: "rsi", headerName: "rsi", flex: 1 },
+    { field: "troughPrice", headerName: "Trough %", flex: 1 },
+    { field: "dtDate", headerName: "Top Date", flex: 1 },
+    { field: "rsi", headerName: "RSI", flex: 1 },
     {
       field: "fav",
       headerName: "Favorite",
@@ -57,6 +58,13 @@ export default function CountryStocks({ country, stocks }) {
           ).toFixed(2) + "%"
         : "–",
       rsi: rsi.toFixed(2),
+      dtDate: doubleTops[symbol]
+        ? new Date(doubleTops[symbol][1][1]).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "–",
     }));
     console.log("Double Tops Rows:", rowData);
     setStocksData(rowData);
