@@ -12,11 +12,11 @@ export default function CountryStocks({ country, stocks }) {
   const doubleTops = stocks.double_top_results || {};
   const colData = [
     { field: "symbol", headerName: "Symbol", flex: 1 },
-    { field: "movingAverage", headerName: "9 Crossing 45", flex: 1 },
-    { field: "doubleBottom", headerName: "Double Bottom", flex: 1 },
+    { field: "movingAverage", headerName: "9 x 45", flex: 1 },
+    { field: "doubleBottom", headerName: "DB", flex: 1 },
     { field: "peakPrice", headerName: "Peak %", flex: 1 },
-    { field: "dbDate", headerName: "Bottom Date", flex: 1 },
-    { field: "doubleTop", headerName: "Double Top", flex: 1 },
+    { field: "dbDate", headerName: "Bot Date", flex: 1 },
+    { field: "doubleTop", headerName: "DT", flex: 1 },
     { field: "troughPrice", headerName: "Trough %", flex: 1 },
     { field: "dtDate", headerName: "Top Date", flex: 1 },
     { field: "rsi", headerName: "RSI", flex: 1 },
@@ -43,9 +43,9 @@ export default function CountryStocks({ country, stocks }) {
           ).toFixed(2) + "%"
         : "–",
       dbDate: doubleBottoms[symbol]
-        ? new Date(doubleBottoms[symbol][1][1]).toLocaleDateString("en-US", {
+        ? new Date(doubleBottoms[symbol][1][0]).toLocaleDateString("en-UK", {
             year: "numeric",
-            month: "long",
+            month: "numeric",
             day: "numeric",
           })
         : "–",
@@ -59,9 +59,9 @@ export default function CountryStocks({ country, stocks }) {
         : "–",
       rsi: rsi.toFixed(2),
       dtDate: doubleTops[symbol]
-        ? new Date(doubleTops[symbol][1][1]).toLocaleDateString("en-US", {
+        ? new Date(doubleTops[symbol][1][0]).toLocaleDateString("en-UK", {
             year: "numeric",
-            month: "long",
+            month: "numeric",
             day: "numeric",
           })
         : "–",
@@ -73,7 +73,7 @@ export default function CountryStocks({ country, stocks }) {
   return (
     <div>
       <h1 className="text-center flex justify-center my-4 text-2xl tracking-wide font-bold">
-        Double Bottoms
+        {country} Stocks
       </h1>
       <div className="ag-theme-alpine h-96 w-5/6 mx-auto">
         {console.log("Stocks Data:", stocksData)}
